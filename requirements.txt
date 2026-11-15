@@ -1,0 +1,12 @@
+docling>=2.0
+chromadb>=0.5
+FlagEmbedding>=1.2.10      # BGE-M3 (dense + sparse) and bge-reranker-v2-m3
+rank-bm25>=0.2.2
+numpy
+fastapi
+uvicorn
+python-multipart
+pydantic>=2
+langchain-core>=0.3
+langchain-ollama>=0.3.4
+langgraph>=0.2
