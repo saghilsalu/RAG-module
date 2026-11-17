@@ -174,10 +174,14 @@ class TranscriptRAG:
         fb = f"\nFix these problems from the previous draft: {s['feedback']}" if s.get("feedback") else ""
         r = self.llm.invoke(
             "Answer the question using ONLY the transcript evidence below.\n"
-            "- Cite every factual sentence with the evidence tags, e.g. [E3] or [E3][E7].\n"
-            "- Never invent numbers or names. If something is not in the evidence, say so.\n"
-            "- When the answer links several pieces (problem -> solution), make the link explicit "
-            "and cite both sides.\n- Be concise."
+            "- Answer exactly what was asked. Do not add background or restate unrelated numbers.\n"
+            "- Copy numbers and comparison words exactly ('at least', 'at or below'). Never paraphrase them.\n"
+            "- A TARGET or REQUIREMENT is not a CURRENT value. If asked what something is today and the "
+            "evidence only gives a target, say the current value is not stated, then mention the target.\n"
+            "- Attribute statements to the speaker who said them. Do not expand acronyms.\n"
+            "- Do not add words like 'exactly', 'eliminate' or 'immediately' unless the evidence says them.\n"
+            "- Cite each claim with the single tag whose text contains it.\n"
+            "- If the evidence lacks the answer, say 'Not stated in the transcript.'\n"
             f"{gaps}{fb}\n\nQuestion: {s['standalone']}\n\nEvidence:\n{text}")
         return {"answer": text_of(r), "trace": self._log(s, "generate")}
 
